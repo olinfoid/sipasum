@@ -92,11 +92,11 @@
                     <div class="col-lg-6">
                         <form action="{{route('be.psu.permohonan.act_edit_permohonan_psu')}}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <input type="hidden" id="add-id_permohonan_psu" name="id_permohonan_psu" value="{{$id}}" />
+                            <input type="hidden" id="edt-id_permohonan_psu" name="id_permohonan_psu" value="{{$id}}" />
                             <div class="mb-3">
-                                <label for="add-perumahan" class="form-label">Nama Perumahan</label>
+                                <label for="edt-perumahan" class="form-label">Nama Perumahan</label>
                                 <div class="input-group">
-                                    <select id="add-perumahan" name="perumahan" 
+                                    <select id="edt-perumahan" name="perumahan" 
                                         class="form-control selectpicker" data-live-search="true" data-size="7" data-show-subtext="true">
                                         <option value="0" selected>== Pilih Perumahan ==</option>
                                         @foreach($select_perumahan as $sel_perumahan)
@@ -114,48 +114,60 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="add-surat_permohonan" class="form-label">Surat Permohonan</label>
+                                <label for="edt-surat_permohonan" class="form-label">Surat Permohonan</label>
                                 <div class="input-group">
                                     <input class="form-control" type="file" 
-                                        id="add-surat_permohonan" name="surat_permohonan" 
+                                        id="edt-surat_permohonan" name="surat_permohonan" 
                                         value="{{old('surat_permohonan')}}" accept=".pdf"/>
                                     <span class="input-group-text">.pdf</span>
+                                    <button class="btn btn-outline-primary" type="button" id="btn-lihat_surat_permohonan" 
+                                        onclick="lihat_surat_permohonan()">Lihat
+                                    </button>
                                 </div>
                                 @error('surat_permohonan')
                                 <div id="hlp-surat_permohonan" class="form-text error">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="add-surat_rekom_izin" class="form-label">Seluruh Surat Rekomendasi/Izin Dimiliki</label>
+                                <label for="edt-surat_rekom_izin" class="form-label">Seluruh Surat Rekomendasi/Izin Dimiliki</label>
                                 <div class="input-group">
                                     <input class="form-control" type="file" 
-                                        id="add-surat_rekom_izin" name="surat_rekom_izin" 
+                                        id="edt-surat_rekom_izin" name="surat_rekom_izin" 
                                         value="{{old('surat_rekom_izin')}}" accept=".pdf"/>
                                     <span class="input-group-text">.pdf</span>
+                                    <button class="btn btn-outline-primary" type="button" id="btn-lihat_surat_izin" 
+                                        onclick="lihat_surat_izin()">Lihat
+                                    </button>
                                 </div>
                                 @error('surat_rekom_izin')
                                 <div id="hlp-surat_rekom_izin" class="form-text error">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="add-foto_siteplan" class="form-label">Gambar Rencana Tapak (Site Plan)</label>
+                                <label for="edt-foto_siteplan" class="form-label">Gambar Rencana Tapak (Site Plan)</label>
                                 <div class="input-group">
                                     <input class="form-control" type="file" 
-                                        id="add-foto_siteplan" name="foto_siteplan" 
+                                        id="edt-foto_siteplan" name="foto_siteplan" 
                                         value="{{old('foto_siteplan')}}" accept=".jpg,.png"/>
                                     <span class="input-group-text">.jpg</span>
+                                    <button class="btn btn-outline-primary" type="button" id="btn-lihat_siteplan" 
+                                        data-bs-toggle="modal" data-bs-target="#lihat_siteplan">Lihat
+                                    </button>
                                 </div>
                                 @error('foto_siteplan')
                                 <div id="hlp-foto_siteplan" class="form-text error">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="add-surat_pernyataan_pemakaman" class="form-label">Surat Pernyataan Menyediakan Lahan Pemakaman</label>
+                                <label for="edt-surat_pernyataan_pemakaman" class="form-label">Surat Pernyataan Menyediakan Lahan Pemakaman</label>
                                 <div class="input-group">
                                     <input class="form-control" type="file" 
-                                        id="add-surat_pernyataan_pemakaman" name="surat_pernyataan_pemakaman" 
+                                        id="edt-surat_pernyataan_pemakaman" name="surat_pernyataan_pemakaman" 
                                         value="{{old('surat_pernyataan_pemakaman')}}" accept=".pdf"/>
                                     <span class="input-group-text">.pdf</span>
+                                    <button class="btn btn-outline-primary" type="button" id="btn-lihat_surat_pemakaman" 
+                                        onclick="lihat_surat_pemakaman()">Lihat
+                                    </button>
                                 </div>
                                 @error('surat_pernyataan_pemakaman')
                                 <div id="hlp-surat_pernyataan_pemakaman" class="form-text error">{{ $message }}</div>
@@ -178,8 +190,8 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="add-perusahaan_pengembang" class="form-label">Perusahaan Pengembang</label>
-                            <select id="add-perusahaan_pengembang" name="perusahaan_pengembang" 
+                            <label for="edt-perusahaan_pengembang" class="form-label">Perusahaan Pengembang</label>
+                            <select id="edt-perusahaan_pengembang" name="perusahaan_pengembang" 
                                 class="form-control selectpicker" data-live-search="true" data-size="7" disabled>
                                 <option value="0" selected>== Pilih Pengembang ==</option>
                                 @foreach($pengembang as $val_pengembang)
@@ -191,15 +203,15 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-nm_perumahan" class="form-label">Nama Perumahan</label>
-                            <input type="text" class="form-control" id="add-nm_perumahan" name="nm_perumahan" placeholder="Masukan Nama Perumahan" value="{{$perumahan->nm_perumahan}}" disabled/>
+                            <label for="edt-nm_perumahan" class="form-label">Nama Perumahan</label>
+                            <input type="text" class="form-control" id="edt-nm_perumahan" name="nm_perumahan" placeholder="Masukan Nama Perumahan" value="{{$perumahan->nm_perumahan}}" disabled/>
                             @error('nm_perumahan')
                             <div id="hlp-nm_perumahan" class="form-text error">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-jml_unit" class="form-label">Jumlah Unit</label>
-                            <input type="number" class="form-control" id="add-jml_unit" name="jml_unit" placeholder="Jumlah Unit" value="{{$perumahan->jml_unit}}"
+                            <label for="edt-jml_unit" class="form-label">Jumlah Unit</label>
+                            <input type="number" class="form-control" id="edt-jml_unit" name="jml_unit" placeholder="Jumlah Unit" value="{{$perumahan->jml_unit}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('jml_unit')
@@ -207,8 +219,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-kd_kecamatan" class="form-label">Kecamatan</label>
-                            <select id="add-kd_kecamatan" name="kd_kecamatan" class="form-control selectpicker" data-live-search="true" data-size="7" disabled>
+                            <label for="edt-kd_kecamatan" class="form-label">Kecamatan</label>
+                            <select id="edt-kd_kecamatan" name="kd_kecamatan" class="form-control selectpicker" data-live-search="true" data-size="7" disabled>
                                 <option value="0" selected>== Pilih Kecamatan ==</option>
                                 @foreach($kecamatan as $val_kec)
                                     <option value="{{$val_kec->kd_kecamatan}}" @selected($perumahan->kd_kecamatan == $val_kec->kd_kecamatan)>{{ ucwords(strtolower($val_kec->nm_kecamatan))}}</option>
@@ -219,8 +231,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-kd_desa" class="form-label">Desa</label>
-                            <select class="selectpicker form-select form-control" id="add-kd_desa" name="kd_desa" data-live-search="true" data-size="7" disabled>
+                            <label for="edt-kd_desa" class="form-label">Desa</label>
+                            <select class="selectpicker form-select form-control" id="edt-kd_desa" name="kd_desa" data-live-search="true" data-size="7" disabled>
                                 <option value="0" selected>== Pilih Desa ==</option>
                                 @foreach($desa as $val_desa)
                                     <option value="{{$val_desa->kd_desa}}" @selected($perumahan->kd_desa == $val_desa->kd_desa)>{{ ucwords(strtolower($val_desa->nm_desa))}}</option>
@@ -233,8 +245,8 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="add-luas_lahan_perumahan" class="form-label">Luas Lahan Perumahan <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-luas_lahan_perumahan" name="luas_lahan_perumahan" placeholder="Masukan Luas Lahan Perumahan" value="{{$perumahan->luas_lahan_perumahan}}"
+                            <label for="edt-luas_lahan_perumahan" class="form-label">Luas Lahan Perumahan <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-luas_lahan_perumahan" name="luas_lahan_perumahan" placeholder="Masukan Luas Lahan Perumahan" value="{{$perumahan->luas_lahan_perumahan}}"
                                 pattern="/^\d+(,\d+)*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('luas_lahan_perumahan')
@@ -242,8 +254,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-luas_lahan_efektif" class="form-label">Luas Lahan Efektif <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-luas_lahan_efektif" name="luas_lahan_efektif" placeholder="Masukan Luas Lahan Efektif" value="{{$perumahan->luas_lahan_efektif}}"
+                            <label for="edt-luas_lahan_efektif" class="form-label">Luas Lahan Efektif <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-luas_lahan_efektif" name="luas_lahan_efektif" placeholder="Masukan Luas Lahan Efektif" value="{{$perumahan->luas_lahan_efektif}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('luas_lahan_efektif')
@@ -251,8 +263,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-luas_lahan_nonefektif" class="form-label">Luas Lahan Non Efektif <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-luas_lahan_nonefektif" name="luas_lahan_nonefektif" placeholder="Masukan Luas Lahan Non Efektif" value="{{$perumahan->luas_lahan_non_efektif}}"
+                            <label for="edt-luas_lahan_nonefektif" class="form-label">Luas Lahan Non Efektif <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-luas_lahan_nonefektif" name="luas_lahan_nonefektif" placeholder="Masukan Luas Lahan Non Efektif" value="{{$perumahan->luas_lahan_non_efektif}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('luas_lahan_efektif')
@@ -260,9 +272,9 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-foto" class="form-label">Foto Perumahan</label>
+                            <label for="edt-foto" class="form-label">Foto Perumahan</label>
                             <div class="input-group">
-                                <input class="form-control" type="file" id="add-foto" name="foto[]" multiple value="{{old('foto[]')}}" disabled/>
+                                <input class="form-control" type="file" id="edt-foto" name="foto[]" multiple value="{{old('foto[]')}}" disabled/>
                                 <button class="btn btn-outline-primary" type="button" id="btn-lihat_foto" 
                                     data-bs-toggle="modal" data-bs-target="#lihat_foto">Lihat
                                 </button>
@@ -275,12 +287,12 @@
                             @php 
                                 $maps_lokasi = '<iframe src="'.$perumahan->maps.'" class="embed-responsive-item" frameborder="0" style="width: 100%; height: 200px;" allowfullscreen></iframe>';
                             @endphp
-                            <label for="add-maps_lokasi" class="form-label">Maps Lokasi</label>
+                            <label for="edt-maps_lokasi" class="form-label">Maps Lokasi</label>
                             <div class="input-group">
                                 <button class="btn btn-outline-primary" type="button" id="btn-cari_maps" data-bs-toggle="modal"
                                     data-bs-target="#cara-cari_maps">Cari
                                 </button>
-                                <input class="form-control" type="text" id="add-maps_lokasi" name="maps_lokasi" value="{{$maps_lokasi}}" disabled/>
+                                <input class="form-control" type="text" id="edt-maps_lokasi" name="maps_lokasi" value="{{$maps_lokasi}}" disabled/>
                                 <button class="btn btn-outline-primary" type="button" id="btn-lihat_maps" 
                                     onclick="tampilkan_maps()">Lihat
                                 </button>
@@ -302,8 +314,8 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="add-jaringan_jalan" class="form-label">Luas Jaringan Jalan <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-jaringan_jalan" name="jaringan_jalan" placeholder="Masukan Jaringan Jalan"  value="{{$prasarana->jaringan_jalan}}"
+                            <label for="edt-jaringan_jalan" class="form-label">Luas Jaringan Jalan <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-jaringan_jalan" name="jaringan_jalan" placeholder="Masukan Jaringan Jalan"  value="{{$prasarana->jaringan_jalan}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('jaringan_jalan')
@@ -311,8 +323,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-jaringan_drainase" class="form-label">Luas Jaringan Drainase <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-jaringan_drainase" name="jaringan_drainase" placeholder="Masukan Jaringan Drainase"  value="{{$prasarana->jaringan_drainase}}"
+                            <label for="edt-jaringan_drainase" class="form-label">Luas Jaringan Drainase <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-jaringan_drainase" name="jaringan_drainase" placeholder="Masukan Jaringan Drainase"  value="{{$prasarana->jaringan_drainase}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('jaringan_drainase')
@@ -320,8 +332,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-prasarana_lainnya" class="form-label">Luas Prasarana Lainnya <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-prasarana_lainnya" name="prasarana_lainnya" placeholder="Masukan Prasarana Lainnya"  value="{{$prasarana->prasarana_lainnya}}"
+                            <label for="edt-prasarana_lainnya" class="form-label">Luas Prasarana Lainnya <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-prasarana_lainnya" name="prasarana_lainnya" placeholder="Masukan Prasarana Lainnya"  value="{{$prasarana->prasarana_lainnya}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('prasarana_lainnya')
@@ -331,8 +343,8 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="add-jaringan_sanitasi" class="form-label">Luas Jaringan Sanitasi <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-jaringan_sanitasi" name="jaringan_sanitasi" placeholder="Masukan Jaringan Sanitasi"  value="{{$prasarana->jaringan_sanitasi}}"
+                            <label for="edt-jaringan_sanitasi" class="form-label">Luas Jaringan Sanitasi <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-jaringan_sanitasi" name="jaringan_sanitasi" placeholder="Masukan Jaringan Sanitasi"  value="{{$prasarana->jaringan_sanitasi}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('jaringan_sanitasi')
@@ -340,8 +352,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-jaringan_persampahan" class="form-label">Luas Jaringan Persampahan <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-jaringan_persampahan" name="jaringan_persampahan" placeholder="Masukan Jaringan Persampahan"  value="{{$prasarana->jaringan_persampahan}}"
+                            <label for="edt-jaringan_persampahan" class="form-label">Luas Jaringan Persampahan <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-jaringan_persampahan" name="jaringan_persampahan" placeholder="Masukan Jaringan Persampahan"  value="{{$prasarana->jaringan_persampahan}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('jaringan_persampahan')
@@ -360,8 +372,8 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="add-sarana_ibadah" class="form-label">Sarana Ibadah <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_ibadah" name="sarana_ibadah" placeholder="Masukan Sarana Ibadah"  value="{{$sarana->peribadahan}}"
+                            <label for="edt-sarana_ibadah" class="form-label">Sarana Ibadah <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_ibadah" name="sarana_ibadah" placeholder="Masukan Sarana Ibadah"  value="{{$sarana->peribadahan}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_ibadah')
@@ -369,8 +381,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-sarana_rekreasi_olaharaga" class="form-label">Sarana Rekreasi Olaharaga <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_rekreasi_olaharaga" name="sarana_rekreasi_olaharaga" placeholder="Masukan Sarana Rekreasi Olaharaga"  value="{{$sarana->rekreasi_dan_olahraga}}"
+                            <label for="edt-sarana_rekreasi_olaharaga" class="form-label">Sarana Rekreasi Olaharaga <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_rekreasi_olaharaga" name="sarana_rekreasi_olaharaga" placeholder="Masukan Sarana Rekreasi Olaharaga"  value="{{$sarana->rekreasi_dan_olahraga}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_rekreasi_olaharaga')
@@ -378,8 +390,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-sarana_pendidikan" class="form-label">Sarana Pendidikan <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_pendidikan" name="sarana_pendidikan" placeholder="Masukan Sarana Pendidikan"  value="{{$sarana->pendidikan}}"
+                            <label for="edt-sarana_pendidikan" class="form-label">Sarana Pendidikan <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_pendidikan" name="sarana_pendidikan" placeholder="Masukan Sarana Pendidikan"  value="{{$sarana->pendidikan}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_pendidikan')
@@ -387,8 +399,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-sarana_kesehatan" class="form-label">Sarana Kesehatan <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_kesehatan" name="sarana_kesehatan" placeholder="Masukan Sarana Kesehatan"  value="{{$sarana->kesehatan}}"
+                            <label for="edt-sarana_kesehatan" class="form-label">Sarana Kesehatan <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_kesehatan" name="sarana_kesehatan" placeholder="Masukan Sarana Kesehatan"  value="{{$sarana->kesehatan}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_kesehatan')
@@ -396,8 +408,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-sarana_pemakaman" class="form-label">Sarana Pemakaman <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_pemakaman" name="sarana_pemakaman" placeholder="Masukan Sarana Pemakaman"  value="{{$sarana->pemakaman}}"
+                            <label for="edt-sarana_pemakaman" class="form-label">Sarana Pemakaman <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_pemakaman" name="sarana_pemakaman" placeholder="Masukan Sarana Pemakaman"  value="{{$sarana->pemakaman}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_pemakaman')
@@ -405,8 +417,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-sarana_lainnya" class="form-label">Sarana Lainnya<b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_lainnya" name="sarana_lainnya" placeholder="Masukan Sarana Lainnya"  value="{{$sarana->sarana_lainnya}}"
+                            <label for="edt-sarana_lainnya" class="form-label">Sarana Lainnya<b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_lainnya" name="sarana_lainnya" placeholder="Masukan Sarana Lainnya"  value="{{$sarana->sarana_lainnya}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_lainnya')
@@ -416,8 +428,8 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="add-sarana_pertamanan_rth" class="form-label">Sarana Pertamanan dan RTH <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_pertamanan_rth" name="sarana_pertamanan_rth" placeholder="Masukan Sarana Pertamanan dan RTH"  value="{{$sarana->pertamanan_dan_rth}}"
+                            <label for="edt-sarana_pertamanan_rth" class="form-label">Sarana Pertamanan dan RTH <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_pertamanan_rth" name="sarana_pertamanan_rth" placeholder="Masukan Sarana Pertamanan dan RTH"  value="{{$sarana->pertamanan_dan_rth}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_pertamanan_rth')
@@ -425,8 +437,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-sarana_perniagaan" class="form-label">Sarana Perniagaan/Perbelanjaan <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_perniagaan" name="sarana_perniagaan" placeholder="Masukan Sarana Perniagaan"  value="{{$sarana->perniagaan}}"
+                            <label for="edt-sarana_perniagaan" class="form-label">Sarana Perniagaan/Perbelanjaan <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_perniagaan" name="sarana_perniagaan" placeholder="Masukan Sarana Perniagaan"  value="{{$sarana->perniagaan}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_perniagaan')
@@ -434,8 +446,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-sarana_fasilitas_sosial" class="form-label">Sarana Fasilitas Sosial <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_fasilitas_sosial" name="sarana_fasilitas_sosial" placeholder="Masukan Sarana Fasilitas Sosial"  value="{{$sarana->fasilitas_sosial}}"
+                            <label for="edt-sarana_fasilitas_sosial" class="form-label">Sarana Fasilitas Sosial <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_fasilitas_sosial" name="sarana_fasilitas_sosial" placeholder="Masukan Sarana Fasilitas Sosial"  value="{{$sarana->fasilitas_sosial}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_fasilitas_sosial')
@@ -443,8 +455,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-sarana_parkir" class="form-label">Sarana Parkir <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_parkir" name="sarana_parkir" placeholder="Masukan Sarana Parkir"  value="{{$sarana->parkir}}"
+                            <label for="edt-sarana_parkir" class="form-label">Sarana Parkir <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_parkir" name="sarana_parkir" placeholder="Masukan Sarana Parkir"  value="{{$sarana->parkir}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_parkir')
@@ -452,8 +464,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-sarana_pelayananumum_pemerintah" class="form-label">Sarana Pelayanan Umum dan Pemerintahan <b style="font-size:12pt;">(㎡)</b></label>
-                            <input type="number" class="form-control" id="add-sarana_pelayananumum_pemerintah" name="sarana_pelayananumum_pemerintah" placeholder="Masukan Sarana Pelayanan Umum"  value="{{$sarana->pelayanan_umum_dan_pemerintahan}}"
+                            <label for="edt-sarana_pelayananumum_pemerintah" class="form-label">Sarana Pelayanan Umum dan Pemerintahan <b style="font-size:12pt;">(㎡)</b></label>
+                            <input type="number" class="form-control" id="edt-sarana_pelayananumum_pemerintah" name="sarana_pelayananumum_pemerintah" placeholder="Masukan Sarana Pelayanan Umum"  value="{{$sarana->pelayanan_umum_dan_pemerintahan}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('sarana_pelayananumum_pemerintah')
@@ -472,8 +484,8 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="add-jaringan_penerangan" class="form-label">Jaringan Penerangan <b style="font-size:10pt;">(Unit)</b></label>
-                            <input type="number" class="form-control" id="add-jaringan_penerangan" name="jaringan_penerangan" placeholder="Masukan Jaringan Penerangan"  value="{{$utilitas->jaringan_penerangan}}"
+                            <label for="edt-jaringan_penerangan" class="form-label">Jaringan Penerangan <b style="font-size:10pt;">(Unit)</b></label>
+                            <input type="number" class="form-control" id="edt-jaringan_penerangan" name="jaringan_penerangan" placeholder="Masukan Jaringan Penerangan"  value="{{$utilitas->jaringan_penerangan}}"
                                 pattern="/^-?\d+\.?\d*$/"
                                 onKeyPress="if(this.value.length==15) return false;" disabled/>
                             @error('jaringan_penerangan')
@@ -481,8 +493,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-jaringan_air_bersih" class="form-label">Jaringan Air Bersih</label>
-                            <select id="add-jaringan_air_bersih" name="jaringan_air_bersih" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
+                            <label for="edt-jaringan_air_bersih" class="form-label">Jaringan Air Bersih</label>
+                            <select id="edt-jaringan_air_bersih" name="jaringan_air_bersih" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
                                 <option value="0" selected>== Pilih Jaringan Air Bersih ==</option>
                                 <option value="pdam" @selected($utilitas->jaringan_air_bersih == 'pdam')>PDAM</option>
                                 <option value="air_tanah" @selected($utilitas->jaringan_air_bersih == 'air_tanah')>Air Tanah</option>
@@ -492,8 +504,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-jaringan_listrik" class="form-label">Jaringan Listrik</label>
-                            <select id="add-jaringan_listrik" name="jaringan_listrik" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
+                            <label for="edt-jaringan_listrik" class="form-label">Jaringan Listrik</label>
+                            <select id="edt-jaringan_listrik" name="jaringan_listrik" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
                                 <option value="0" selected>== Pilih Jaringan Listrik ==</option>
                                 <option value="tersedia" @selected($utilitas->jaringan_listrik == 'tersedia')>Tersedia</option>
                                 <option value="tidak_tersedia" @selected($utilitas->jaringan_listrik == 'tidak_tersedia')>Tidak Tersedia</option>
@@ -503,8 +515,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-jaringan_transportasi" class="form-label">Jaringan Transportasi</label>
-                            <select id="add-jaringan_transportasi" name="jaringan_transportasi" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
+                            <label for="edt-jaringan_transportasi" class="form-label">Jaringan Transportasi</label>
+                            <select id="edt-jaringan_transportasi" name="jaringan_transportasi" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
                                 <option value="0" selected>== Pilih Jaringan Transportasi ==</option>
                                 <option value="tersedia" @selected($utilitas->transportasi == 'tersedia')>Tersedia</option>
                                 <option value="tidak_tersedia" @selected($utilitas->transportasi == 'tidak_tersedia')>Tidak Tersedia</option>
@@ -516,8 +528,8 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="mb-3">
-                            <label for="add-jaringan_telepon" class="form-label">Jaringan Telepon</label>
-                            <select id="add-jaringan_telepon" name="jaringan_telepon" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
+                            <label for="edt-jaringan_telepon" class="form-label">Jaringan Telepon</label>
+                            <select id="edt-jaringan_telepon" name="jaringan_telepon" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
                                 <option value="0" selected>== Pilih Jaringan Telepon ==</option>
                                 <option value="tersedia" @selected($utilitas->jaringan_telepon == 'tersedia')>Tersedia</option>
                                 <option value="tidak_tersedia" @selected($utilitas->jaringan_telepon == 'tidak_tersedia')>Tidak Tersedia</option>
@@ -527,8 +539,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-jaringan_pemadam_kebakaran" class="form-label">Jaringan Pemadam Kebakaran</label>
-                            <select id="add-jaringan_pemadam_kebakaran" name="jaringan_pemadam_kebakaran" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
+                            <label for="edt-jaringan_pemadam_kebakaran" class="form-label">Jaringan Pemadam Kebakaran</label>
+                            <select id="edt-jaringan_pemadam_kebakaran" name="jaringan_pemadam_kebakaran" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
                                 <option value="0" selected>== Pilih Jaringan Pemadam Kebakaran ==</option>
                                 <option value="tersedia" @selected($utilitas->jaringan_pemadam_kebakaran == 'tersedia')>Tersedia</option>
                                 <option value="tidak_tersedia" @selected($utilitas->jaringan_pemadam_kebakaran== 'tidak_tersedia')>Tidak Tersedia</option>
@@ -538,8 +550,8 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="add-jaringan_gas" class="form-label">Jaringan Gas</label>
-                            <select id="add-jaringan_gas" name="jaringan_gas" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
+                            <label for="edt-jaringan_gas" class="form-label">Jaringan Gas</label>
+                            <select id="edt-jaringan_gas" name="jaringan_gas" class="form-control selectpicker" data-live-search="false" data-size="7" disabled>
                                 <option value="0" selected>== Pilih Jaringan Gas ==</option>
                                 <option value="tersedia" @selected($utilitas->gas == 'tersedia')>Tersedia</option>
                                 <option value="tidak_tersedia" @selected($utilitas->gas == 'tidak_tersedia')>Tidak Tersedia</option>
@@ -549,6 +561,59 @@
                             @enderror
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lihat Foto Siteplan-->
+    <div class="modal fade" id="lihat_siteplan" aria-labelledby="lbl-lihat_siteplan" 
+        tabindex="-1" style="display: none" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lbl-lihat_siteplan">Gambar Siteplan </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @php 
+                        $path_siteplan = asset('public/storage/perumahan/').'/'.$perumahan->id_pengembang.'/'.$perumahan->id_perumahan;
+                        $foto_siteplan = $dokumen->foto_siteplan;
+                        $arr_foto_siteplan = explode('|',$foto_siteplan);
+                        $siteplan_ke = 0;
+                    @endphp
+                    <div id="carousel-siteplan" class="carousel slide" data-bs-ride="carousel">
+                        <ol class="carousel-indicators" id="carousel-indikator_siteplan">
+                            @foreach($arr_foto_siteplan as $k_foto_siteplan => $v_foto_siteplan)
+                            @if($k_foto_siteplan == 0)
+                            <li data-bs-target="#carousel-siteplan" data-bs-slide-to="{{$k_foto_siteplan}}" class="active"></li>
+                            @else
+                            <li data-bs-target="#carousel-siteplan" data-bs-slide-to="{{$k_foto_siteplan}}"></li>
+                            @endif
+                            @endforeach
+                        </ol>
+                        <div class="carousel-inner" id="carousel-content_siteplan">
+                            @foreach($arr_foto_siteplan as $key_foto_siteplan => $val_foto_siteplan)
+                            @php $siteplan_ke += 1; @endphp
+                            <div class="carousel-item {{$key_foto_siteplan == 0 ? 'active' : ''}}">
+                                <img class="d-block w-100" src="{{$path_siteplan.'/'.$val_foto_siteplan}}" height="400" alt="Gambar {{$siteplan_ke}}" />
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h3>{{'Gambar '.$siteplan_ke}}</h3>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel-siteplan" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel-siteplan" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
                 </div>
             </div>
         </div>
@@ -679,7 +744,7 @@
 </script>
 <script>
     function tampilkan_maps(){
-        var maps_lokasi_baru = $('#add-maps_lokasi').val();
+        var maps_lokasi_baru = $('#edt-maps_lokasi').val();
         var ex_maps = maps_lokasi_baru.split('"');
 
         var new_maps = '<iframe src="'+ex_maps[1]+'" class="embed-responsive-item" frameborder="0"'+ 
@@ -689,7 +754,7 @@
     }
 
     function tampilkan_perumahan(){
-        var perumahan = $('#add-perumahan').val();
+        var perumahan = $('#edt-perumahan').val();
         get_data_perumahan(btoa(perumahan));
     }
 
@@ -710,18 +775,18 @@
                     var utilitas  = records.utilitas;
 
                     //Data Perumahan
-                    $('#add-perusahaan_pengembang').selectpicker('val', perumahan.id_pengembang.toString());
-                    $('#add-nm_perumahan').val(perumahan.nm_perumahan);
-                    $('#add-jml_unit').val(perumahan.jml_unit);
-                    $('#add-kd_kecamatan').selectpicker('val', perumahan.kd_kecamatan.toString());
+                    $('#edt-perusahaan_pengembang').selectpicker('val', perumahan.id_pengembang.toString());
+                    $('#edt-nm_perumahan').val(perumahan.nm_perumahan);
+                    $('#edt-jml_unit').val(perumahan.jml_unit);
+                    $('#edt-kd_kecamatan').selectpicker('val', perumahan.kd_kecamatan.toString());
                     get_desa(perumahan.kd_kecamatan.toString(),perumahan.kd_desa.toString());
-                    $('#add-luas_lahan_perumahan').val(perumahan.luas_lahan_perumahan);
-                    $('#add-luas_lahan_efektif').val(perumahan.luas_lahan_efektif);
-                    $('#add-luas_lahan_nonefektif').val(perumahan.luas_lahan_non_efektif);
+                    $('#edt-luas_lahan_perumahan').val(perumahan.luas_lahan_perumahan);
+                    $('#edt-luas_lahan_efektif').val(perumahan.luas_lahan_efektif);
+                    $('#edt-luas_lahan_nonefektif').val(perumahan.luas_lahan_non_efektif);
 
                     var new_maps = '<iframe src="'+perumahan.maps+'" class="embed-responsive-item" frameborder="0"'+ 
                         'style="width: 100%; height: 200px;" allowfullscreen></iframe>';
-                    $('#add-maps_lokasi').val(new_maps);
+                    $('#edt-maps_lokasi').val(new_maps);
 
                     var path_foto = "{{asset('public/storage/perumahan/').'/'}}"+perumahan.id_pengembang;
                     var foto = perumahan.foto;
@@ -757,33 +822,33 @@
 
 
                     //Data Prasarana
-                    $('#add-jaringan_jalan').val(prasarana.jaringan_jalan);
-                    $('#add-jaringan_drainase').val(prasarana.jaringan_drainase);
-                    $('#add-jaringan_sanitasi').val(prasarana.jaringan_sanitasi);
-                    $('#add-jaringan_persampahan').val(prasarana.jaringan_persampahan);
-                    $('#add-prasarana_lainnya').val(prasarana.prasarana_lainnya);
+                    $('#edt-jaringan_jalan').val(prasarana.jaringan_jalan);
+                    $('#edt-jaringan_drainase').val(prasarana.jaringan_drainase);
+                    $('#edt-jaringan_sanitasi').val(prasarana.jaringan_sanitasi);
+                    $('#edt-jaringan_persampahan').val(prasarana.jaringan_persampahan);
+                    $('#edt-prasarana_lainnya').val(prasarana.prasarana_lainnya);
 
                     //Data Sarana
-                    $('#add-sarana_ibadah').val(sarana.peribadahan);
-                    $('#add-sarana_rekreasi_olaharaga').val(sarana.rekreasi_dan_olahraga);
-                    $('#add-sarana_pertamanan_rth').val(sarana.pertamanan_dan_rth);
-                    $('#add-sarana_perniagaan').val(sarana.perniagaan);
-                    $('#add-sarana_fasilitas_sosial').val(sarana.fasilitas_sosial);
-                    $('#add-sarana_pendidikan').val(sarana.pendidikan);
-                    $('#add-sarana_kesehatan').val(sarana.kesehatan);
-                    $('#add-sarana_pemakaman').val(sarana.pemakaman);
-                    $('#add-sarana_parkir').val(sarana.parkir);
-                    $('#add-sarana_pelayananumum_pemerintah').val(sarana.pelayanan_umum_dan_pemerintahan);
-                    $('#add-sarana_lainnya').val(sarana.sarana_lainnya);
+                    $('#edt-sarana_ibadah').val(sarana.peribadahan);
+                    $('#edt-sarana_rekreasi_olaharaga').val(sarana.rekreasi_dan_olahraga);
+                    $('#edt-sarana_pertamanan_rth').val(sarana.pertamanan_dan_rth);
+                    $('#edt-sarana_perniagaan').val(sarana.perniagaan);
+                    $('#edt-sarana_fasilitas_sosial').val(sarana.fasilitas_sosial);
+                    $('#edt-sarana_pendidikan').val(sarana.pendidikan);
+                    $('#edt-sarana_kesehatan').val(sarana.kesehatan);
+                    $('#edt-sarana_pemakaman').val(sarana.pemakaman);
+                    $('#edt-sarana_parkir').val(sarana.parkir);
+                    $('#edt-sarana_pelayananumum_pemerintah').val(sarana.pelayanan_umum_dan_pemerintahan);
+                    $('#edt-sarana_lainnya').val(sarana.sarana_lainnya);
 
                     //Data Utilitas
-                    $('#add-jaringan_penerangan').val(utilitas == null ? '0' : utilitas.jaringan_penerangan);
-                    $('#add-jaringan_air_bersih').selectpicker('val', utilitas == null ? '0' : utilitas.jaringan_air_bersih);
-                    $('#add-jaringan_listrik').selectpicker('val', utilitas == null ? '0' : utilitas.jaringan_listrik);
-                    $('#add-jaringan_transportasi').selectpicker('val', utilitas == null ? '0' : utilitas.transportasi);
-                    $('#add-jaringan_telepon').selectpicker('val', utilitas == null ? '0' : utilitas.jaringan_telepon);
-                    $('#add-jaringan_pemadam_kebakaran').selectpicker('val', utilitas == null ? '0' : utilitas.jaringan_pemadam_kebakaran);
-                    $('#add-jaringan_gas').selectpicker('val', utilitas == null ? '0' : utilitas.gas);
+                    $('#edt-jaringan_penerangan').val(utilitas == null ? '0' : utilitas.jaringan_penerangan);
+                    $('#edt-jaringan_air_bersih').selectpicker('val', utilitas == null ? '0' : utilitas.jaringan_air_bersih);
+                    $('#edt-jaringan_listrik').selectpicker('val', utilitas == null ? '0' : utilitas.jaringan_listrik);
+                    $('#edt-jaringan_transportasi').selectpicker('val', utilitas == null ? '0' : utilitas.transportasi);
+                    $('#edt-jaringan_telepon').selectpicker('val', utilitas == null ? '0' : utilitas.jaringan_telepon);
+                    $('#edt-jaringan_pemadam_kebakaran').selectpicker('val', utilitas == null ? '0' : utilitas.jaringan_pemadam_kebakaran);
+                    $('#edt-jaringan_gas').selectpicker('val', utilitas == null ? '0' : utilitas.gas);
 
                     var notif_success = $notif_success_awal+message+$notif_akhir;
                     $('#toaster').html(notif_success);
@@ -796,6 +861,125 @@
         });
     }
 
+    // $('#edt-surat_permohonan').on('change', function(){
+    //     var jml_file = $(this)[0].files.length;
+    //     if (jml_file > 0) {
+    //         document.getElementById("btn-lihat_surat_permohonan").disabled = false;
+    //     }else{
+    //         document.getElementById("btn-lihat_surat_permohonan").disabled = true;
+    //     }
+    // });
+
+    // $('#edt-surat_rekom_izin').on('change', function(){
+    //     var jml_file = $(this)[0].files.length;
+    //     if (jml_file > 0) {
+    //         document.getElementById("btn-lihat_surat_izin").disabled = false;
+    //     }else{
+    //         document.getElementById("btn-lihat_surat_izin").disabled = true;
+    //     }
+    // });
+
+    // $('#edt-surat_pernyataan_pemakaman').on('change', function(){
+    //     var jml_file = $(this)[0].files.length;
+    //     if (jml_file > 0) {
+    //         document.getElementById("btn-lihat_surat_pemakaman").disabled = false;
+    //     }else{
+    //         document.getElementById("btn-lihat_surat_pemakaman").disabled = true;
+    //     }
+    // });
+
+    function lihat_surat_permohonan(){
+
+        var file_surat_permohonan = document.getElementById("edt-surat_permohonan");
+        var val_surat_permohonan = file_surat_permohonan.value;
+        var jml_file = val_surat_permohonan.length;
+        if (jml_file > 0) {
+            var files = file_surat_permohonan.files;
+            var new_path = window.URL.createObjectURL(files[0]);
+            var modal_body = '<embed src="'+new_path+'" class="w-100" height="600">';
+            $('#content-modal').html(modal_body);
+
+            show_modal("lihat_pdf");
+        }else{
+            var message = "Mohon pilih file surat permohonan!";
+            var notif_failed = $notif_failed_awal+message+$notif_akhir;
+            $('#toaster').html(notif_failed);
+        }
+    }
+
+    function lihat_surat_izin(){
+        var file_surat_izin = document.getElementById("edt-surat_rekom_izin");
+        var val_surat_izin = file_surat_izin.value;
+        var jml_file = val_surat_izin.length;
+        if (jml_file > 0) {
+            var files = file_surat_izin.files;
+            var new_path = window.URL.createObjectURL(files[0]);
+            var modal_body = '<embed src="'+new_path+'" class="w-100" height="600">';
+            $('#content-modal').html(modal_body);
+
+            show_modal("lihat_pdf");
+        }else{
+            var message = "Mohon pilih file surat rekomendasi/izin!";
+            var notif_failed = $notif_failed_awal+message+$notif_akhir;
+            $('#toaster').html(notif_failed);
+        }
+    }
+
+    function lihat_surat_pemakaman(){
+        var file_surat_pemakaman = document.getElementById("edt-surat_pernyataan_pemakaman");
+        var val_surat_pemakaman = file_surat_pemakaman.value;
+        var jml_file = val_surat_pemakaman.length;
+        if (jml_file > 0) {
+            var files = file_surat_pemakaman.files;
+            var new_path = window.URL.createObjectURL(files[0]);
+            var modal_body = '<embed src="'+new_path+'" class="w-100" height="600">';
+            $('#content-modal').html(modal_body);
+
+            show_modal("lihat_pdf");
+        }else{
+            var message = "Mohon pilih file surat menyediakan pemakaman!";
+            var notif_failed = $notif_failed_awal+message+$notif_akhir;
+            $('#toaster').html(notif_failed);
+        }
+    }
+
+    $('#edt-foto_siteplan').on('change', function(){
+        var jml_foto = $(this)[0].files.length;
+        if (jml_foto > 0) {
+            document.getElementById("btn-lihat_siteplan").disabled = false;
+
+            var content_foto = "";
+            var indikator_foto = "";
+            let ke = 0;
+            for (var index = 0; index < jml_foto; index++) {
+                var new_path = window.URL.createObjectURL(this.files[index]);
+                var carousel_active = "";
+                var indikator_active = "";
+                
+                if (index == 0) {
+                    carousel_active = "active";
+                    indikator_active = "class='active'";
+                }
+                ke += 1;
+                indikator_foto += 
+                    '<li data-bs-target="#carousel-siteplan" data-bs-slide-to="'+index+'"'+
+                    indikator_active+'></li>';
+                content_foto += 
+                    '<div class="carousel-item '+carousel_active+'">'+
+                        '<img class="d-block w-100" src="'+new_path+'" height="400" alt="Gambar '+ke+'" />'+
+                        '<div class="carousel-caption d-none d-md-block">'+
+                            '<h3>Gambar '+ke+'</h3>'+
+                        '</div>'+
+                    '</div>';
+            }
+            $('#carousel-indikator_siteplan').html(indikator_foto);
+            $('#carousel-content_siteplan').html(content_foto);
+
+        }else{
+            document.getElementById("btn-lihat_siteplan").disabled = true;
+        }
+    });
+
     function get_desa(kd_kecamatan,kd_desa){
         $.ajax({
             url: "{{ route('api.kd_wilayah.getDesa_byKd_kecamatan').'/' }}" + kd_kecamatan,
@@ -805,7 +989,7 @@
 
                 if (status == '200') {
                     var records = data.records;
-                    var desaSelect = $("#add-kd_desa");
+                    var desaSelect = $("#edt-kd_desa");
 
                     desaSelect.empty().trigger('change');
                     desaSelect.selectpicker('destroy');

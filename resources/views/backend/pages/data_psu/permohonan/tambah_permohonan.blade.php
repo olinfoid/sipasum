@@ -119,6 +119,9 @@
                                         id="add-surat_permohonan" name="surat_permohonan" 
                                         value="{{old('surat_permohonan')}}" accept=".pdf"/>
                                     <span class="input-group-text">.pdf</span>
+                                    <button class="btn btn-outline-primary" type="button" id="btn-lihat_surat_permohonan" 
+                                        onclick="lihat_surat_permohonan()" disabled="disabled">Lihat
+                                    </button>
                                 </div>
                                 @error('surat_permohonan')
                                 <div id="hlp-surat_permohonan" class="form-text error">{{ $message }}</div>
@@ -131,6 +134,9 @@
                                         id="add-surat_rekom_izin" name="surat_rekom_izin" 
                                         value="{{old('surat_rekom_izin')}}" accept=".pdf"/>
                                     <span class="input-group-text">.pdf</span>
+                                    <button class="btn btn-outline-primary" type="button" id="btn-lihat_surat_izin" 
+                                        onclick="lihat_surat_izin()" disabled="disabled">Lihat
+                                    </button>
                                 </div>
                                 @error('surat_rekom_izin')
                                 <div id="hlp-surat_rekom_izin" class="form-text error">{{ $message }}</div>
@@ -143,6 +149,9 @@
                                         id="add-foto_siteplan" name="foto_siteplan" 
                                         value="{{old('foto_siteplan')}}" accept=".jpg,.png"/>
                                     <span class="input-group-text">.jpg</span>
+                                    <button class="btn btn-outline-primary" type="button" id="btn-lihat_siteplan" 
+                                        data-bs-toggle="modal" data-bs-target="#lihat_siteplan" disabled="disabled">Lihat
+                                    </button>
                                 </div>
                                 @error('foto_siteplan')
                                 <div id="hlp-foto_siteplan" class="form-text error">{{ $message }}</div>
@@ -155,6 +164,9 @@
                                         id="add-surat_pernyataan_pemakaman" name="surat_pernyataan_pemakaman" 
                                         value="{{old('surat_pernyataan_pemakaman')}}" accept=".pdf"/>
                                     <span class="input-group-text">.pdf</span>
+                                    <button class="btn btn-outline-primary" type="button" id="btn-lihat_surat_pemakaman" 
+                                        onclick="lihat_surat_pemakaman()" disabled="disabled">Lihat
+                                    </button>
                                 </div>
                                 @error('surat_pernyataan_pemakaman')
                                 <div id="hlp-surat_pernyataan_pemakaman" class="form-text error">{{ $message }}</div>
@@ -547,6 +559,58 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="lihat_pdf" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="jdl-modal">Lihat PDF</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="content-modal">
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lihat Foto Siteplan-->
+    <div class="modal fade" id="lihat_siteplan" aria-labelledby="lbl-lihat_siteplan" 
+        tabindex="-1" style="display: none" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lbl-lihat_siteplan">Gambar Siteplan </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div id="carousel-siteplan" class="carousel slide" data-bs-ride="carousel">
+                        <ol class="carousel-indicators" id="carousel-indikator_siteplan">
+                           
+                        </ol>
+                        <div class="carousel-inner" id="carousel-content_siteplan">
+                            
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel-siteplan" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel-siteplan" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Lihat Foto Perumahan-->
     <div class="modal fade" id="lihat_foto" aria-labelledby="lbl-lihat_foto" 
         tabindex="-1" style="display: none" aria-hidden="true">
@@ -642,6 +706,7 @@
 <script src="{{ asset('public/assets/be/libs/datatables/language/indonesia.js') }}"></script>
 <script src="{{ asset('public/assets/be/libs/selectpicker/bootstrap-select.min.js') }}"></script>
 <script src="{{ asset('public/assets/be/js/toastr_notif.js') }}"></script>
+<script src="{{ asset('public/assets/be/js/pages/all_function.js') }}"></script>
 
 <script type="text/javascript">
     const EachWord = str => str.replace(/(^\w|\s\w)(\S*)/g, (_,m1,m2) => m1.toUpperCase()+m2.toLowerCase());
@@ -767,6 +832,125 @@
             },
         });
     }
+
+    $('#add-surat_permohonan').on('change', function(){
+        var jml_file = $(this)[0].files.length;
+        if (jml_file > 0) {
+            document.getElementById("btn-lihat_surat_permohonan").disabled = false;
+        }else{
+            document.getElementById("btn-lihat_surat_permohonan").disabled = true;
+        }
+    });
+
+    $('#add-surat_rekom_izin').on('change', function(){
+        var jml_file = $(this)[0].files.length;
+        if (jml_file > 0) {
+            document.getElementById("btn-lihat_surat_izin").disabled = false;
+        }else{
+            document.getElementById("btn-lihat_surat_izin").disabled = true;
+        }
+    });
+
+    $('#add-surat_pernyataan_pemakaman').on('change', function(){
+        var jml_file = $(this)[0].files.length;
+        if (jml_file > 0) {
+            document.getElementById("btn-lihat_surat_pemakaman").disabled = false;
+        }else{
+            document.getElementById("btn-lihat_surat_pemakaman").disabled = true;
+        }
+    });
+
+    function lihat_surat_permohonan(){
+
+        var file_surat_permohonan = document.getElementById("add-surat_permohonan");
+        var val_surat_permohonan = file_surat_permohonan.value;
+        var jml_file = val_surat_permohonan.length;
+        if (jml_file > 0) {
+            var files = file_surat_permohonan.files;
+            var new_path = window.URL.createObjectURL(files[0]);
+            var modal_body = '<embed src="'+new_path+'" class="w-100" height="600">';
+            $('#content-modal').html(modal_body);
+
+            show_modal("lihat_pdf");
+        }else{
+            var message = "Mohon pilih file surat permohonan!";
+            var notif_failed = $notif_failed_awal+message+$notif_akhir;
+            $('#toaster').html(notif_failed);
+        }
+    }
+
+    function lihat_surat_izin(){
+        var file_surat_izin = document.getElementById("add-surat_rekom_izin");
+        var val_surat_izin = file_surat_izin.value;
+        var jml_file = val_surat_izin.length;
+        if (jml_file > 0) {
+            var files = file_surat_izin.files;
+            var new_path = window.URL.createObjectURL(files[0]);
+            var modal_body = '<embed src="'+new_path+'" class="w-100" height="600">';
+            $('#content-modal').html(modal_body);
+
+            show_modal("lihat_pdf");
+        }else{
+            var message = "Mohon pilih file surat rekomendasi/izin!";
+            var notif_failed = $notif_failed_awal+message+$notif_akhir;
+            $('#toaster').html(notif_failed);
+        }
+    }
+
+    function lihat_surat_pemakaman(){
+        var file_surat_pemakaman = document.getElementById("add-surat_pernyataan_pemakaman");
+        var val_surat_pemakaman = file_surat_pemakaman.value;
+        var jml_file = val_surat_pemakaman.length;
+        if (jml_file > 0) {
+            var files = file_surat_pemakaman.files;
+            var new_path = window.URL.createObjectURL(files[0]);
+            var modal_body = '<embed src="'+new_path+'" class="w-100" height="600">';
+            $('#content-modal').html(modal_body);
+
+            show_modal("lihat_pdf");
+        }else{
+            var message = "Mohon pilih file surat menyediakan pemakaman!";
+            var notif_failed = $notif_failed_awal+message+$notif_akhir;
+            $('#toaster').html(notif_failed);
+        }
+    }
+
+    $('#add-foto_siteplan').on('change', function(){
+        var jml_foto = $(this)[0].files.length;
+        if (jml_foto > 0) {
+            document.getElementById("btn-lihat_siteplan").disabled = false;
+
+            var content_foto = "";
+            var indikator_foto = "";
+            let ke = 0;
+            for (var index = 0; index < jml_foto; index++) {
+                var new_path = window.URL.createObjectURL(this.files[index]);
+                var carousel_active = "";
+                var indikator_active = "";
+                
+                if (index == 0) {
+                    carousel_active = "active";
+                    indikator_active = "class='active'";
+                }
+                ke += 1;
+                indikator_foto += 
+                    '<li data-bs-target="#carousel-siteplan" data-bs-slide-to="'+index+'"'+
+                    indikator_active+'></li>';
+                content_foto += 
+                    '<div class="carousel-item '+carousel_active+'">'+
+                        '<img class="d-block w-100" src="'+new_path+'" height="400" alt="Gambar '+ke+'" />'+
+                        '<div class="carousel-caption d-none d-md-block">'+
+                            '<h3>Gambar '+ke+'</h3>'+
+                        '</div>'+
+                    '</div>';
+            }
+            $('#carousel-indikator_siteplan').html(indikator_foto);
+            $('#carousel-content_siteplan').html(content_foto);
+
+        }else{
+            document.getElementById("btn-lihat_siteplan").disabled = true;
+        }
+    });
 
     function get_desa(kd_kecamatan,kd_desa){
         $.ajax({

@@ -105,6 +105,7 @@ class ConbePermohonanPSU extends Controller
         } 
 
         $perumahan = $query_perumahan->where('tbl_perumahan.id',$id_perumahan)->first();
+        $dokumen = DB::table('tbl_psu_dokumen')->where('id_permohonan_psu',$id_permohonan_psu)->first();
         $prasarana = DB::table('tbl_perumahan_prasarana')->where('id_perumahan',$id_perumahan)->first();
         $sarana = DB::table('tbl_perumahan_sarana')->where('id_perumahan',$id_perumahan)->first();
         $utilitas = DB::table('tbl_perumahan_utilitas')->where('id_perumahan',$id_perumahan)->first();
@@ -113,7 +114,7 @@ class ConbePermohonanPSU extends Controller
         $desa = DB::table('tbl_reff_kode_desa')->where('kd_kecamatan',$perumahan->kd_kecamatan)->get();
         
         return view('backend.pages.data_psu.permohonan.edit_permohonan',
-            compact('id','select_perumahan','perumahan','pengembang','kecamatan','desa',
+            compact('id','select_perumahan','perumahan','dokumen','pengembang','kecamatan','desa',
                 'prasarana','sarana','utilitas'
             ));
     }
