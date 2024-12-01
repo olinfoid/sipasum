@@ -105,7 +105,11 @@ class ConbePermohonanPSU extends Controller
         } 
 
         $perumahan = $query_perumahan->where('tbl_perumahan.id',$id_perumahan)->first();
-        $dokumen = DB::table('tbl_psu_dokumen')->where('id_permohonan_psu',$id_permohonan_psu)->first();
+        $dokumen = DB::table('tbl_psu_dokumen')
+            ->join('tbl_psu_permohonan','tbl_psu_dokumen.id_permohonan_psu','=','tbl_psu_permohonan.id')
+            ->join('tbl_perumahan','tbl_psu_permohonan.id_perumahan','=','tbl_perumahan.id')
+            ->select('tbl_perumahan.id_pengembang','tbl_psu_permohonan.id_perumahan','tbl_psu_dokumen.*')
+            ->where('tbl_psu_dokumen.id_permohonan_psu',$id_permohonan_psu)->first();
         $prasarana = DB::table('tbl_perumahan_prasarana')->where('id_perumahan',$id_perumahan)->first();
         $sarana = DB::table('tbl_perumahan_sarana')->where('id_perumahan',$id_perumahan)->first();
         $utilitas = DB::table('tbl_perumahan_utilitas')->where('id_perumahan',$id_perumahan)->first();

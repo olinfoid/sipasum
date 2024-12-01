@@ -566,6 +566,24 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="lihat_pdf" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="jdl-modal">Lihat PDF</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="content-modal">
+                
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Lihat Foto Siteplan-->
     <div class="modal fade" id="lihat_siteplan" aria-labelledby="lbl-lihat_siteplan" 
         tabindex="-1" style="display: none" aria-hidden="true">
@@ -735,6 +753,7 @@
 <script src="{{ asset('public/assets/be/libs/datatables/language/indonesia.js') }}"></script>
 <script src="{{ asset('public/assets/be/libs/selectpicker/bootstrap-select.min.js') }}"></script>
 <script src="{{ asset('public/assets/be/js/toastr_notif.js') }}"></script>
+<script src="{{ asset('public/assets/be/js/pages/all_function.js') }}"></script>
 
 <script type="text/javascript">
     const EachWord = str => str.replace(/(^\w|\s\w)(\S*)/g, (_,m1,m2) => m1.toUpperCase()+m2.toLowerCase());
@@ -861,35 +880,8 @@
         });
     }
 
-    // $('#edt-surat_permohonan').on('change', function(){
-    //     var jml_file = $(this)[0].files.length;
-    //     if (jml_file > 0) {
-    //         document.getElementById("btn-lihat_surat_permohonan").disabled = false;
-    //     }else{
-    //         document.getElementById("btn-lihat_surat_permohonan").disabled = true;
-    //     }
-    // });
-
-    // $('#edt-surat_rekom_izin').on('change', function(){
-    //     var jml_file = $(this)[0].files.length;
-    //     if (jml_file > 0) {
-    //         document.getElementById("btn-lihat_surat_izin").disabled = false;
-    //     }else{
-    //         document.getElementById("btn-lihat_surat_izin").disabled = true;
-    //     }
-    // });
-
-    // $('#edt-surat_pernyataan_pemakaman').on('change', function(){
-    //     var jml_file = $(this)[0].files.length;
-    //     if (jml_file > 0) {
-    //         document.getElementById("btn-lihat_surat_pemakaman").disabled = false;
-    //     }else{
-    //         document.getElementById("btn-lihat_surat_pemakaman").disabled = true;
-    //     }
-    // });
-
     function lihat_surat_permohonan(){
-
+        $('#content-modal').html("");
         var file_surat_permohonan = document.getElementById("edt-surat_permohonan");
         var val_surat_permohonan = file_surat_permohonan.value;
         var jml_file = val_surat_permohonan.length;
@@ -898,16 +890,16 @@
             var new_path = window.URL.createObjectURL(files[0]);
             var modal_body = '<embed src="'+new_path+'" class="w-100" height="600">';
             $('#content-modal').html(modal_body);
-
-            show_modal("lihat_pdf");
         }else{
-            var message = "Mohon pilih file surat permohonan!";
-            var notif_failed = $notif_failed_awal+message+$notif_akhir;
-            $('#toaster').html(notif_failed);
+            var path_permohonan = "{{asset('public/storage/perumahan/').'/'.$dokumen->id_pengembang.'/'.$dokumen->id_perumahan.'/'.$dokumen->surat_permohonan}}";
+            var modal_body = '<embed src="'+path_permohonan+'" class="w-100" height="600">';
+            $('#content-modal').html(modal_body);
         }
+        show_modal("lihat_pdf");
     }
 
     function lihat_surat_izin(){
+        $('#content-modal').html("");
         var file_surat_izin = document.getElementById("edt-surat_rekom_izin");
         var val_surat_izin = file_surat_izin.value;
         var jml_file = val_surat_izin.length;
@@ -916,16 +908,16 @@
             var new_path = window.URL.createObjectURL(files[0]);
             var modal_body = '<embed src="'+new_path+'" class="w-100" height="600">';
             $('#content-modal').html(modal_body);
-
-            show_modal("lihat_pdf");
         }else{
-            var message = "Mohon pilih file surat rekomendasi/izin!";
-            var notif_failed = $notif_failed_awal+message+$notif_akhir;
-            $('#toaster').html(notif_failed);
+            var path_izin = "{{asset('public/storage/perumahan/').'/'.$dokumen->id_pengembang.'/'.$dokumen->id_perumahan.'/'.$dokumen->surat_rekom_izin}}";
+            var modal_body = '<embed src="'+path_izin+'" class="w-100" height="600">';
+            $('#content-modal').html(modal_body);
         }
+        show_modal("lihat_pdf");
     }
 
     function lihat_surat_pemakaman(){
+        $('#content-modal').html("");
         var file_surat_pemakaman = document.getElementById("edt-surat_pernyataan_pemakaman");
         var val_surat_pemakaman = file_surat_pemakaman.value;
         var jml_file = val_surat_pemakaman.length;
@@ -934,13 +926,12 @@
             var new_path = window.URL.createObjectURL(files[0]);
             var modal_body = '<embed src="'+new_path+'" class="w-100" height="600">';
             $('#content-modal').html(modal_body);
-
-            show_modal("lihat_pdf");
         }else{
-            var message = "Mohon pilih file surat menyediakan pemakaman!";
-            var notif_failed = $notif_failed_awal+message+$notif_akhir;
-            $('#toaster').html(notif_failed);
+            var path_pemakaman = "{{ asset('public/storage/perumahan/').'/'.$dokumen->id_pengembang.'/'.$dokumen->id_perumahan.'/'.$dokumen->surat_pernyataan_pemakaman}}";
+            var modal_body = '<embed src="'+path_pemakaman+'" class="w-100" height="600">';
+            $('#content-modal').html(modal_body);
         }
+        show_modal("lihat_pdf");
     }
 
     $('#edt-foto_siteplan').on('change', function(){
